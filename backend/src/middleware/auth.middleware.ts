@@ -6,7 +6,10 @@ import User from '../models/user.model';
 declare global {
     namespace Express {
         interface Request {
-            user?: any;
+            user?: {
+                id: string;
+                role: string;
+            };
         }
     }
 }
@@ -33,7 +36,10 @@ export const authenticateToken = async (
             return;
         }
 
-        req.user = user;
+        req.user = {
+            id: (user as any)._id.toString(),
+            role: user.role
+        };
         next();
     } catch (error) {
         res.status(403).json({ error: 'Invalid token' });
@@ -41,7 +47,7 @@ export const authenticateToken = async (
 };
 
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
-    if (req.user.role !== 'Admin') {
+    if (!req.user || req.user.role !== 'Admin') {
         res.status(403).json({ error: 'Access denied. Admin privileges required.' });
         return;
     }
@@ -49,7 +55,7 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const isSuperAdmin = (req: Request, res: Response, next: NextFunction) => {
-    if (req.user.role !== 'Super Admin') {
+    if (!req.user || req.user.role !== 'Super Admin') {
         res.status(403).json({ error: 'Access denied. Super Admin privileges required.' });
         return;
     }

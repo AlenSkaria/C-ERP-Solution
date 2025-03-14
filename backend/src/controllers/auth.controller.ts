@@ -84,6 +84,10 @@ export const loginUser = async (req: Request, res: Response) => {
 // Controller function to get user profile
 export const getProfile = async (req: Request, res: Response) => {
     try {
+        if (!req.user) {
+            res.status(401).json({ error: 'User not authenticated' });
+            return;
+        }
         const userId = req.user.id;
         const user = await getUserProfile(userId);
         res.json({ user });
