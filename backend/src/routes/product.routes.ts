@@ -2,9 +2,11 @@ import express from 'express';
 import { authenticateToken } from '../middleware/auth.middleware';
 import { isManagerOrAbove } from '../middleware/role.middleware';
 import {
-    createProductController,
-    getAllProductsController,
-    getProductByIdController
+    addProduct,
+    getProducts,
+    getProductByIdController,
+    updateProductInfo,
+    deleteProductInfo
 } from '../controllers/product.controller';
 
 const router = express.Router();
@@ -12,9 +14,11 @@ const router = express.Router();
 // All routes require authentication
 router.use(authenticateToken);
 
-// Routes accessible by Manager, Admin, and Super Admin
-router.post('/', isManagerOrAbove, createProductController);
-router.get('/', isManagerOrAbove, getAllProductsController);
-router.get('/:id', isManagerOrAbove, getProductByIdController);
+// Allow access to add and search products
+router.post('/', isManagerOrAbove, addProduct); // Add a new product
+router.get('/', getProducts); // Search for products
+router.get('/:id', getProductByIdController); // Get product by ID
+router.put('/:id', isManagerOrAbove, updateProductInfo); // Update product
+router.delete('/:id', isManagerOrAbove, deleteProductInfo); // Delete product
 
 export default router; 
