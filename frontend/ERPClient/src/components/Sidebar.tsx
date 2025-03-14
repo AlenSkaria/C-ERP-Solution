@@ -26,6 +26,11 @@ const Sidebar = () => {
         {userRole === 'Super Admin' && (
           <>
             <li>
+              <Link to="/employees" className="block p-2 hover:bg-gray-200 rounded">
+                Employee Management
+              </Link>
+            </li>
+            <li>
               <Link to="/company-registration" className="block p-2 hover:bg-gray-200 rounded">
                 Company Registration
               </Link>
@@ -35,11 +40,7 @@ const Sidebar = () => {
                 Permissions
               </Link>
             </li>
-            <li>
-              <Link to="/employees" className="block p-2 hover:bg-gray-200 rounded">
-                Employee Management
-              </Link>
-            </li>
+            
           </>
         )}
 
