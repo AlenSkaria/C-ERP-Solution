@@ -28,8 +28,8 @@ const Inventory = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = (await getProducts()) as ApiResponse;
-      setProducts(response.data);
+      const products: Product[] = await getProducts();
+      setProducts(products);
     } catch (err) {
       setError("Failed to fetch products");
       console.error("Error fetching products:", err);
@@ -192,7 +192,7 @@ const Inventory = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {products.length > 0 ? (
+              {products && products.length > 0 ? (
                 products.map((product) => (
                   <tr key={product._id} className="hover:bg-gray-50" style={{textAlign: "center"}}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
