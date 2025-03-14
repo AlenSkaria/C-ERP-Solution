@@ -3,6 +3,7 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Dashboard from './pages/dashboard/Dashboard';
 import EmployeeManagement from './pages/employees/EmployeeManagement';
+import Inventory from './pages/inventory/Inventory';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
 import Sidebar from './components/Sidebar';
@@ -27,6 +28,7 @@ const App = () => {
                       <Route path="/" element={<Dashboard />} />
                       <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/employees" element={<EmployeeManagement />} />
+                      <Route path="/inventory" element={<Inventory />} />
                       {/* Add other protected routes here */}
                     </Routes>
                   </main>
