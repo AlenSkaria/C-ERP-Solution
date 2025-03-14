@@ -3,9 +3,17 @@ import { Product } from '../models/product.model'; // Import Product model to up
 
 // Function to create a new sale
 export const createSale = async (saleData: ISale) => {
+    // Check if the product is in stock
+    const product = await Product.findById(saleData.productId);
+    if (!product || product.quantity < saleData.quantity) {
+        throw new Error('Insufficient stock for the requested product.');
+    }
+
     const sale = new Sale(saleData);
+    
     // Update product stock
     await Product.findByIdAndUpdate(saleData.productId, { $inc: { quantity: -saleData.quantity } });
+    
     return await sale.save();
 };
 
