@@ -4,6 +4,7 @@ import connectDB from "./config/db";
 import authRoutes from "./routes/auth.routes";
 import employeeRoutes from "./routes/employee.routes";
 import productRoutes from './routes/product.routes';
+import customerRoutes from './routes/customer.routes';
 import cors from "cors";
 
 const app = express(); //init express
@@ -22,6 +23,7 @@ connectDB(); // MongoDB connection starts here
 app.use("/api/auth", authRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/customers", customerRoutes);
 
 app.listen(port, () => {
   console.log(`the server is running on port ${port}`);
