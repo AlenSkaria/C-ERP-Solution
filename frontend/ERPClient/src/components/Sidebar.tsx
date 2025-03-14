@@ -82,6 +82,11 @@ const Sidebar = () => {
                 POS
               </Link>
             </li>
+            <li>
+              <Link to="/customers" className="block p-2 hover:bg-gray-200 rounded">
+                Customers
+              </Link>
+            </li>
           </>
         )}
       </ul>

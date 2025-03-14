@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { addCustomer, searchCustomers, getCustomerById, updateCustomer, deleteCustomer } from '../services/customer.service';
+import { addCustomer, getAllCustomers, getCustomerById, updateCustomer, deleteCustomer } from '../services/customer.service';
 
 // Controller function to add a new customer
 export const createCustomer = async (req: Request, res: Response): Promise<void> => {
@@ -11,10 +11,10 @@ export const createCustomer = async (req: Request, res: Response): Promise<void>
     }
 };
 
-// Controller function to search for customers
+// Controller function to get all customers or search for customers
 export const getCustomers = async (req: Request, res: Response): Promise<void> => {
     try {
-        const customers = await searchCustomers(req.query);
+        const customers = await getAllCustomers(req.query);
         res.json(customers);
     } catch (error) {
         res.status(500).json({ error: (error as Error).message });

@@ -8,7 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
-
+import Customers from './pages/customers/Customers';
 const App = () => {
   return (
     <Router>
@@ -29,6 +29,7 @@ const App = () => {
                       <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/employees" element={<EmployeeManagement />} />
                       <Route path="/inventory" element={<Inventory />} />
+                      <Route path="/customers" element={<Customers />} />
                       {/* Add other protected routes here */}
                     </Routes>
                   </main>

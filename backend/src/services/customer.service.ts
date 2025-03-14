@@ -11,17 +11,23 @@ export const searchCustomers = async (query: any) => {
     const searchCriteria: any = {};
     
     // Add search criteria based on query parameters
-    if (query.name) {
-        searchCriteria.name = { $regex: query.name, $options: 'i' }; // Case-insensitive search
-    }
-    if (query.email) {
-        searchCriteria.email = { $regex: query.email, $options: 'i' };
-    }
-    if (query.phone) {
-        searchCriteria.phone = { $regex: query.phone, $options: 'i' };
+    if (query) {
+        searchCriteria.$or = [
+            { name: { $regex: query, $options: 'i' } }, // Case-insensitive search by name
+            { email: { $regex: query, $options: 'i' } }, // Case-insensitive search by email
+            { phone: { $regex: query, $options: 'i' } }  // Case-insensitive search by phone
+        ];
     }
 
     return await Customer.find(searchCriteria);
+};
+
+// Function to get all customers or search based on query
+export const getAllCustomers = async (query: any) => {
+    if (query.query) { // Check for the 'query' parameter
+        return await searchCustomers(query.query);
+    }
+    return await Customer.find(); // Return all customers if no query
 };
 
 // Function to get a customer by ID
