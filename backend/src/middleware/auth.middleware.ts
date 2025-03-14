@@ -46,4 +46,12 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
         return;
     }
     next();
+};
+
+export const isSuperAdmin = (req: Request, res: Response, next: NextFunction) => {
+    if (req.user.role !== 'Super Admin') {
+        res.status(403).json({ error: 'Access denied. Super Admin privileges required.' });
+        return;
+    }
+    next();
 }; 

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_BASE_URL } from './config';
 
 export interface Employee {
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -26,8 +26,16 @@ export interface PromoteEmployeeData {
 
 // Get all employees
 export const getEmployees = async (): Promise<Employee[]> => {
-  const response = await axios.get(`${API_BASE_URL}/employees`);
-  return response.data.employees;
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('Access token required');
+  }
+  const response = await axios.get(`${API_BASE_URL}/employees`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+  return response.data.users || [];
 };
 
 // Get promotion history for an employee
@@ -37,7 +45,15 @@ export const getPromotionHistory = async (employeeId: string): Promise<Promotion
 };
 
 // Promote an employee
-export const promoteEmployee = async (employeeId: string, data: PromoteEmployeeData): Promise<Employee> => {
-  const response = await axios.put(`${API_BASE_URL}/employees/${employeeId}/promote`, data);
+export const promoteEmployee = async (employeeId: string, data: { newRole: string, reason: string }): Promise<Employee> => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('Access token required');
+  }
+  const response = await axios.put(`${API_BASE_URL}/employees/${employeeId}/promote`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
   return response.data.employee;
 }; 
