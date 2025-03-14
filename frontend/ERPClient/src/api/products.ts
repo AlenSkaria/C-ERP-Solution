@@ -18,12 +18,12 @@ export interface Product {
   updatedAt: string;
 }
 
-interface ApiResponse {
+export interface ApiResponse {
   success: boolean;
   data: Product[];
 }
 
-export const getProducts = async (): Promise<ApiResponse> => {
+export const getProducts = async (): Promise<Product[]> => {
   const token = localStorage.getItem('token');
   if (!token) {
     throw new Error('Access token required');
@@ -33,6 +33,8 @@ export const getProducts = async (): Promise<ApiResponse> => {
       Authorization: `Bearer ${token}`
     }
   });
+  console.log('Full API Response:', response);
+  console.log('Response Data:', response.data);
   return response.data;
 };
 

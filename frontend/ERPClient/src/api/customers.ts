@@ -12,5 +12,7 @@ export const getCustomers = async (query = "") => {
     },
     params: { query }
   });
+  console.log('API Response:', response); // Log the entire response object
+  console.log('Response Data:', response.data); // Log the response data
   return response.data; // Assuming the response data is an array of customers
 }; 
