@@ -10,7 +10,20 @@ const EmployeeManagement = () => {
     try {
       setLoading(true);
       const data = await getEmployees();
-      setEmployees(data);
+      if (Array.isArray(data)) {
+        // Validate that each employee has all required fields
+        const validEmployees = data.filter(emp => 
+          emp.firstName && 
+          emp.lastName && 
+          emp.username && 
+          emp.email && 
+          emp.dateOfBirth && 
+          emp.role
+        );
+        setEmployees(validEmployees);
+      } else {
+        setEmployees([]);
+      }
     } catch (err) {
       setError('Failed to fetch employees');
     } finally {
@@ -18,18 +31,43 @@ const EmployeeManagement = () => {
     }
   };
 
-  const handlePromote = async (employeeId: string, newRole: string) => {
+  const handlePromote = async (employee: Employee, newRole: string) => {
     if (!['Admin', 'Manager'].includes(newRole)) {
       setError('Invalid role. Can only promote to Admin or Manager');
       return;
     }
 
+    // Validate employee data before sending
+    if (!employee.firstName || !employee.lastName || !employee.username || 
+        !employee.email || !employee.dateOfBirth || !employee.role) {
+      setError('Employee data is incomplete. Missing required fields.');
+      console.error('Incomplete employee data:', employee);
+      return;
+    }
+
+    const promotionData = {
+      newRole,
+      reason: `Promoted to ${newRole}`,
+      firstName: employee.firstName,
+      lastName: employee.lastName,
+      username: employee.username,
+      email: employee.email,
+      dateOfBirth: employee.dateOfBirth,
+      role: employee.role
+    };
+
+    console.log('Sending promotion data:', promotionData);
+
     try {
-      await promoteEmployee(employeeId, { newRole, reason: `Promoted to ${newRole}` });
+      await promoteEmployee(employee._id, promotionData);
       await fetchEmployees(); // Refresh the list
       setError('');
     } catch (err: any) {
-      setError(err.response?.data?.errors?.[0]?.msg || 'Failed to promote employee');
+      console.error('Promotion error:', err.response?.data);
+      const errorMessage = err.response?.data?.error || 
+                         err.response?.data?.message || 
+                         'Failed to promote employee';
+      setError(errorMessage);
     }
   };
 
@@ -55,29 +93,29 @@ const EmployeeManagement = () => {
         {employees.map((employee) => (
           <div 
             key={employee._id}
-            className="border p-4 rounded-lg"
+            className="border p-4 rounded-lg bg-white shadow-sm"
           >
             <div className="flex justify-between items-center">
               <div>
                 <h3 className="font-medium">{employee.firstName} {employee.lastName}</h3>
                 <p className="text-gray-600">{employee.email}</p>
+                <p className="text-sm text-gray-500">Username: {employee.username}</p>
+                <p className="text-sm text-gray-500">Date of Birth: {new Date(employee.dateOfBirth).toLocaleDateString()}</p>
               </div>
               <div className="flex items-center gap-2">
                 <span className="px-3 py-1 bg-gray-100 rounded-full text-sm">
                   {employee.role}
                 </span>
-                {employee.role !== 'Super Admin' ? (
+                {employee.role !== 'Super Admin' && (
                   <select
                     className="border rounded px-2 py-1 text-sm"
-                    onChange={(e) => handlePromote(employee._id, e.target.value)}
+                    onChange={(e) => handlePromote(employee, e.target.value)}
                     value={employee.role}
                   >
                     <option value="Cashier">Cashier</option>
                     <option value="Manager">Manager</option>
                     <option value="Admin">Admin</option>
                   </select>
-                ) : (
-                  <span className="text-sm text-gray-500 italic">Cannot change Super Admin role</span>
                 )}
               </div>
             </div>

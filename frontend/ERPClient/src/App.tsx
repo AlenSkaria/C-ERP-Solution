@@ -6,6 +6,7 @@ import EmployeeManagement from './pages/employees/EmployeeManagement';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
 import Sidebar from './components/Sidebar';
+import Navbar from './components/Navbar';
 
 const App = () => {
   return (
@@ -17,15 +18,18 @@ const App = () => {
           path="/*"
           element={
             <ProtectedRoute>
-              <div className="flex">
+              <div className="flex min-h-screen">
                 <Sidebar />
                 <div className="flex-1">
-                  <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/employees" element={<EmployeeManagement />} />
-                    {/* Add other protected routes here */}
-                  </Routes>
+                  <Navbar />
+                  <main className="mt-16 p-4">
+                    <Routes>
+                      <Route path="/" element={<Dashboard />} />
+                      <Route path="/dashboard" element={<Dashboard />} />
+                      <Route path="/employees" element={<EmployeeManagement />} />
+                      {/* Add other protected routes here */}
+                    </Routes>
+                  </main>
                 </div>
               </div>
             </ProtectedRoute>
