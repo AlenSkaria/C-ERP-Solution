@@ -47,6 +47,9 @@ CL | ERP streamlines clothing retail operations by integrating inventory managem
   - Product
   - Category-wise 
 
+## Live Application
+- Frontend: [https://c-erp-solution-1.onrender.com](https://c-erp-solution-1.onrender.com)
+
 
 ### Future Enhancements (Post-MVP)
 - Advanced inventory forecasting
