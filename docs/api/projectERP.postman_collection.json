@@ -1,0 +1,423 @@
+{
+	"info": {
+		"_postman_id": "4e42a880-3357-41a4-a3ce-33682171466c",
+		"name": "projectERP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "22621780"
+	},
+	"item": [
+		{
+			"name": "authentication",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8080/api/auth/register"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"aiden@test.com\",\r\n  \"password\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "getUserProfile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDJiNWE5NzAwNTY2ZDAxZjgwOGRiMSIsImVtYWlsIjoiYW1pbGlhQGdtYWlsLmNvbSIsInJvbGUiOiJDYXNoaWVyIiwiaWF0IjoxNzQxODYyMzQxLCJleHAiOjE3NDE5NDg3NDF9.VQSrJvQBDlpy1kCrweThly6a-_WgzW9J5N9j9QeOl84"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/auth/profile"
+					},
+					"response": []
+				},
+				{
+					"name": "getUserById(Admin only access)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": ""
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/auth/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "employee",
+			"item": [
+				{
+					"name": "getAllEmployees",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDMwZTNjMzI0ZDQzY2NkM2RjZWY0OCIsImVtYWlsIjoic3VwZXJAYWRtaW4uY29tIiwicm9sZSI6IlN1cGVyIEFkbWluIiwiaWF0IjoxNzQxOTMzMTM2LCJleHAiOjE3NDIwMTk1MzZ9.9It-So7r6DOXKDpJUXyGYQAl6bI6OAK1D9N4Vo_bViw"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/employees"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "getAllProducts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDNjM2JhNzViODVhMWMwZjc2YjY2NSIsImVtYWlsIjoidGVzdEB0ZXN0aW5nLmNvbSIsInJvbGUiOiJDYXNoaWVyIiwiaWF0IjoxNzQxOTU5MDk5LCJleHAiOjE3NDIwNDU0OTl9.Do0B9zEmI2U7k5UIGKwAOpvVjiUH9Nn7JfVzPbEPVfY"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/products"
+					},
+					"response": []
+				},
+				{
+					"name": "addAProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDJiNWE5NzAwNTY2ZDAxZjgwOGRiMSIsImVtYWlsIjoiYW1pbGlhQGdtYWlsLmNvbSIsInJvbGUiOiJNYW5hZ2VyIiwiaWF0IjoxNzQxOTU5MzQ2LCJleHAiOjE3NDIwNDU3NDZ9.aNldl7BHVDKlntEGjzOnTkm5R2OeIdYGAargDglPjhU"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Premium Cotton Dress Shirt\",\r\n    \"description\": \"Classic fit dress shirt made from high-quality Egyptian cotton, perfect for formal occasions\",\r\n    \"category\": \"MENS\",\r\n    \"subCategory\": \"Shirts\",\r\n    \"brand\": \"Executive Wear\",\r\n    \"price\": 799.99,\r\n    \"quantity\": 50,\r\n    \"size\": [\"S\", \"M\", \"L\", \"XL\"],\r\n    \"color\": [\"White\", \"Light Blue\", \"Navy\"],\r\n    \"material\": \"Cotton\",\r\n    \"status\": \"active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/products"
+					},
+					"response": []
+				},
+				{
+					"name": "searchAProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDJkNWIzMTRlZDVlNWEzNmRmYmEwMCIsImVtYWlsIjoic2hpamlAZ21haWwuY29tIiwicm9sZSI6IkNhc2hpZXIiLCJpYXQiOjE3NDE5Nzk0OTYsImV4cCI6MTc0MjA2NTg5Nn0.cnxq3vUFVwgv_Q2N7TQTVrhz9xp93bhY9F9triCX3WI"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products?query=Premi",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "Premi"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "customer",
+			"item": [
+				{
+					"name": "getCustomers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDJkNWIzMTRlZDVlNWEzNmRmYmEwMCIsImVtYWlsIjoic2hpamlAZ21haWwuY29tIiwicm9sZSI6IkNhc2hpZXIiLCJpYXQiOjE3NDE5NzMzNTIsImV4cCI6MTc0MjA1OTc1Mn0.n2a_OV0ShY1uEoGoo7i_GtCeqgnTJEGRcGVCSZBD7jw"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/customers"
+					},
+					"response": []
+				},
+				{
+					"name": "addACustomer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDJkNWIzMTRlZDVlNWEzNmRmYmEwMCIsImVtYWlsIjoic2hpamlAZ21haWwuY29tIiwicm9sZSI6IkNhc2hpZXIiLCJpYXQiOjE3NDE5NzMzNTIsImV4cCI6MTc0MjA1OTc1Mn0.n2a_OV0ShY1uEoGoo7i_GtCeqgnTJEGRcGVCSZBD7jw"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"name\": \"Alonn Grey\",\r\n    \"email\": \"Alonn.grey@example.com\",\r\n    \"phone\": \"7845751230\",\r\n    \"address\": \"kollam\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/customers"
+					},
+					"response": []
+				},
+				{
+					"name": "searchACustomer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDJkNWIzMTRlZDVlNWEzNmRmYmEwMCIsImVtYWlsIjoic2hpamlAZ21haWwuY29tIiwicm9sZSI6IkNhc2hpZXIiLCJpYXQiOjE3NDE5NzMzNTIsImV4cCI6MTc0MjA1OTc1Mn0.n2a_OV0ShY1uEoGoo7i_GtCeqgnTJEGRcGVCSZBD7jw"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer your.jwt.token",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/customers?query=9845751230",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customers"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "9845751230"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "sales",
+			"item": [
+				{
+					"name": "getAllSales",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDJkNWIzMTRlZDVlNWEzNmRmYmEwMCIsImVtYWlsIjoic2hpamlAZ21haWwuY29tIiwicm9sZSI6IkNhc2hpZXIiLCJpYXQiOjE3NDE5Nzk0OTYsImV4cCI6MTc0MjA2NTg5Nn0.cnxq3vUFVwgv_Q2N7TQTVrhz9xp93bhY9F9triCX3WI"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/sales"
+					},
+					"response": []
+				},
+				{
+					"name": "addANewSale",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDJkNWIzMTRlZDVlNWEzNmRmYmEwMCIsImVtYWlsIjoic2hpamlAZ21haWwuY29tIiwicm9sZSI6IkNhc2hpZXIiLCJpYXQiOjE3NDE5Nzk0OTYsImV4cCI6MTc0MjA2NTg5Nn0.cnxq3vUFVwgv_Q2N7TQTVrhz9xp93bhY9F9triCX3WI"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customerId\": \"67d4687bb66f2296775d2d97\",\r\n    \"productId\": \"67d430bb750104d90bc7daa3\",\r\n    \"quantity\": 2,\r\n    \"totalPrice\": 59.98\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/sales"
+					},
+					"response": []
+				},
+				{
+					"name": "getASaleById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDJkNWIzMTRlZDVlNWEzNmRmYmEwMCIsImVtYWlsIjoic2hpamlAZ21haWwuY29tIiwicm9sZSI6IkNhc2hpZXIiLCJpYXQiOjE3NDE5Nzk0OTYsImV4cCI6MTc0MjA2NTg5Nn0.cnxq3vUFVwgv_Q2N7TQTVrhz9xp93bhY9F9triCX3WI"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/sales/67d47fd1495a07a2738ce6b9"
+					},
+					"response": []
+				},
+				{
+					"name": "updateSale",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDJkNWIzMTRlZDVlNWEzNmRmYmEwMCIsImVtYWlsIjoic2hpamlAZ21haWwuY29tIiwicm9sZSI6IkNhc2hpZXIiLCJpYXQiOjE3NDE5Nzk0OTYsImV4cCI6MTc0MjA2NTg5Nn0.cnxq3vUFVwgv_Q2N7TQTVrhz9xp93bhY9F9triCX3WI"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": 3,\r\n    \"totalPrice\": 239\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/sales/67d47fd1495a07a2738ce6b9"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "analytics",
+			"item": [
+				{
+					"name": "getDailyAnalytics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDJkYmE3MTRlZDVlNWEzNmRmYmEwZCIsImVtYWlsIjoibWF0QGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTc0MjAzMDc0MywiZXhwIjoxNzQyMTE3MTQzfQ.kYZ-TanZJHfOU9d3J9ci_0k20_PE9GC8ite7u1MEDEk"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/analytics/sales"
+					},
+					"response": []
+				},
+				{
+					"name": "getTopProducts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDJkYmE3MTRlZDVlNWEzNmRmYmEwZCIsImVtYWlsIjoibWF0QGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTc0MjAzMDc0MywiZXhwIjoxNzQyMTE3MTQzfQ.kYZ-TanZJHfOU9d3J9ci_0k20_PE9GC8ite7u1MEDEk"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/analytics/top-products"
+					},
+					"response": []
+				},
+				{
+					"name": "getCategoryWise",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDJkYmE3MTRlZDVlNWEzNmRmYmEwZCIsImVtYWlsIjoibWF0QGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTc0MjAzMDc0MywiZXhwIjoxNzQyMTE3MTQzfQ.kYZ-TanZJHfOU9d3J9ci_0k20_PE9GC8ite7u1MEDEk"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/analytics/categories"
+					},
+					"response": []
+				},
+				{
+					"name": "getSalesHistory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDJkYmE3MTRlZDVlNWEzNmRmYmEwZCIsImVtYWlsIjoibWF0QGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTc0MjAzMDc0MywiZXhwIjoxNzQyMTE3MTQzfQ.kYZ-TanZJHfOU9d3J9ci_0k20_PE9GC8ite7u1MEDEk"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/analytics/sales-history"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
