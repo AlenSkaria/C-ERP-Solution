@@ -13,6 +13,10 @@ const POS = () => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [searchCustomerQuery, setSearchCustomerQuery] = useState<string>("");
   const [searchProductQuery, setSearchProductQuery] = useState<string>("");
+  const [selectedCustomerName, setSelectedCustomerName] = useState<string>('');
+  const [selectedProductName, setSelectedProductName] = useState<string>('');
+  const [saleError, setSaleError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const fetchCustomers = async (query: string) => {
     try {
@@ -40,9 +44,12 @@ const POS = () => {
   );
 
   const handleAddSale = async () => {
-      console.log(customerId, productId, quantity, totalPrice);
+    console.log(customerId, productId, quantity, totalPrice);
+    setSaleError(null);
+    setSuccessMessage(null); // Reset success message before attempting sale
+    
     if (!customerId || !productId) {
-      alert("Please select a customer and a product.");
+      setSaleError("Please select a customer and a product.");
       return;
     }
 
@@ -59,15 +66,34 @@ const POS = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      alert("Sale added successfully!");
+      
+      setSuccessMessage("Sale added successfully!");
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(null), 3000);
+      
       // Reset fields after successful sale
       setCustomerId(null);
       setProductId(null);
       setQuantity(1);
       setTotalPrice(0);
-    } catch (err) {
+      setSelectedCustomerName('');
+      setSelectedProductName('');
+    } catch (err: any) {
       console.error("Error adding sale:", err);
+      setSaleError(err.response?.data?.message || err.response?.data?.error || "Failed to add sale. Please try again.");
     }
+  };
+
+  // Update the customer selection handler
+  const handleCustomerSelect = (customer: any) => {
+    setCustomerId(customer._id);
+    setSelectedCustomerName(customer.name);
+  };
+
+  // Update the product selection handler
+  const handleProductSelect = (product: any) => {
+    setProductId(product._id);
+    setSelectedProductName(product.name);
   };
 
   useEffect(() => {
@@ -80,6 +106,12 @@ const POS = () => {
       <div className="w-full max-w-7xl px-4">
         <h1 className="text-2xl font-bold mb-6">Point of Sale</h1>
 
+        {successMessage && (
+          <div className="mb-4 bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-md text-sm">
+            {successMessage}
+          </div>
+        )}
+
         <div className="mb-4">
           <input
             type="text"
@@ -89,21 +121,38 @@ const POS = () => {
               fetchCustomers(e.target.value);
             }}
             placeholder="Search Customer"
-            className="p-2 border border-gray-300 rounded"
+            className="p-2 border border-gray-300 rounded w-full"
           />
-          <ul>
-            {customers && customers.map((customer) => (
-              <li key={customer._id} className="flex justify-between items-center">
-                <span>{customer.name}</span>
-                <button
-                  onClick={() => setCustomerId(customer._id)}
-                  className="ml-2 px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                  Confirm
-                </button>
-              </li>
-            ))}
+          <ul className="mt-2">
+            {searchCustomerQuery ? (
+              customers.length > 0 ? (
+                customers.map((customer) => (
+                  <li key={customer._id} className="flex justify-between items-center p-2 hover:bg-gray-50">
+                    <span>{customer.name}</span>
+                    <button
+                      onClick={() => handleCustomerSelect(customer)}
+                      className="ml-2 px-2 py-1 bg-black text-white rounded hover:bg-gray-800"
+                    >
+                      Confirm
+                    </button>
+                  </li>
+                ))
+              ) : (
+                <li className="p-2 text-gray-500">No customers found matching "{searchCustomerQuery}"</li>
+              )
+            ) : null}
           </ul>
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Selected Customer</label>
+          <input
+            type="text"
+            value={selectedCustomerName}
+            disabled
+            className="p-2 border border-gray-300 rounded w-full bg-gray-50"
+            placeholder="No customer selected"
+          />
         </div>
 
         <div className="mb-4">
@@ -114,40 +163,67 @@ const POS = () => {
               setSearchProductQuery(e.target.value);
             }}
             placeholder="Search Product"
-            className="p-2 border border-gray-300 rounded"
+            className="p-2 border border-gray-300 rounded w-full"
           />
-          <ul>
-            {filteredProducts && filteredProducts.map((product) => (
-              <li key={product._id} onClick={() => setProductId(product._id)}>
-                {product.name}
-              </li>
-            ))}
+          <ul className="mt-2">
+            {searchProductQuery ? (
+              filteredProducts.length > 0 ? (
+                filteredProducts.map((product) => (
+                  <li 
+                    key={product._id} 
+                    onClick={() => handleProductSelect(product)}
+                    className="p-2 hover:bg-gray-50 cursor-pointer flex justify-between items-center"
+                  >
+                    <span>{product.name}</span>
+                    <span className="text-gray-500">₹{product.price}</span>
+                  </li>
+                ))
+              ) : (
+                <li className="p-2 text-gray-500">No products found matching "{searchProductQuery}"</li>
+              )
+            ) : null}
           </ul>
         </div>
 
         <div className="mb-4">
-          <label>Quantity:</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Selected Product</label>
           <input
-            type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-            className="p-2 border border-gray-300 rounded"
+            type="text"
+            value={selectedProductName}
+            disabled
+            className="p-2 border border-gray-300 rounded w-full bg-gray-50"
+            placeholder="No product selected"
           />
         </div>
 
         <div className="mb-4">
-          <label>Total Price:</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Quantity:</label>
+          <input
+            type="number"
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            className="p-2 border border-gray-300 rounded w-full"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Total Price:</label>
           <input
             type="number"
             value={totalPrice}
             onChange={(e) => setTotalPrice(Number(e.target.value))}
-            className="p-2 border border-gray-300 rounded"
+            className="p-2 border border-gray-300 rounded w-full"
           />
         </div>
 
-        <button onClick={handleAddSale} className="p-2 bg-blue-500 text-white rounded">
+        <button onClick={handleAddSale} className="p-2 bg-black text-white rounded hover:bg-gray-800 w-full">
           Add Sale
         </button>
+        {saleError && (
+          <div className="mt-4 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
+            {saleError}
+          </div>
+        )}
       </div>
     </div>
   );
