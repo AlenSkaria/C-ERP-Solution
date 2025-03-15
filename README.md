@@ -117,10 +117,7 @@ npm run dev  # Starts the Vite development server
 
 The complete API documentation is available:
 
-1. [Postman Collection](./docs/postman/ERP-API.json)
-   - Import the collection into Postman
-   - Includes environment variables
-   - Pre-request scripts and tests
+[Postman Collection](./docs/api/projectERP.postman_collection.json)
 
 ## Authentication & Role Management
 
