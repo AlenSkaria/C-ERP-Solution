@@ -33,11 +33,12 @@ const Register = () => {
       navigate('/login');
     } catch (err: any) {
       if (err.response?.data?.errors) {
-        // Handle validation errors from the API response
         const errorMessages = err.response.data.errors.map((error: ValidationError) => error.msg).join('\n');
         setError(errorMessages);
+      } else if (err.response?.data?.error) {
+        setError(err.response.data.error);
       } else if (err.response?.data?.message) {
-        // Handle general error message from the API response
+      
         setError(err.response.data.message);
       } else {
         // Fallback error message
