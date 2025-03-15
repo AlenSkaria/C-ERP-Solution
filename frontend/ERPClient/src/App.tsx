@@ -11,6 +11,8 @@ import Navbar from './components/Navbar';
 import Customers from './pages/customers/Customers';
 import POS from './pages/pos/POS';
 import Sales from './pages/sales/Sales';
+import Analytics from './pages/analytics/Analytics';
+
 const App = () => {
   return (
     <Router>
@@ -34,6 +36,7 @@ const App = () => {
                       <Route path="/customers" element={<Customers />} />
                       <Route path="/pos" element={<POS />} />
                       <Route path="/sales" element={<Sales />} />
+                      <Route path="/analytics" element={<Analytics />} />
                       {/* Add other protected routes here */}
                     </Routes>
                   </main>

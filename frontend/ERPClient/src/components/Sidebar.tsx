@@ -30,7 +30,7 @@ const Sidebar = () => {
                 Employee Management
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/company-registration" className="block p-2 hover:bg-gray-200 rounded">
                 Company Registration
               </Link>
@@ -39,7 +39,7 @@ const Sidebar = () => {
               <Link to="/permissions" className="block p-2 hover:bg-gray-200 rounded">
                 Permissions
               </Link>
-            </li>
+            </li> */}
             
           </>
         )}

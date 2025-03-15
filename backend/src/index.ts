@@ -5,6 +5,7 @@ import authRoutes from "./routes/auth.routes";
 import employeeRoutes from "./routes/employee.routes";
 import productRoutes from './routes/product.routes';
 import customerRoutes from './routes/customer.routes';
+import analyticsRoutes from './routes/analytics.routes';
 import cors from "cors";
 import saleRoutes from "./routes/sale.routes";
 
@@ -26,6 +27,7 @@ app.use("/api/employees", employeeRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/customers", customerRoutes);
 app.use("/api/sales", saleRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 app.listen(port, () => {
   console.log(`the server is running on port ${port}`);
